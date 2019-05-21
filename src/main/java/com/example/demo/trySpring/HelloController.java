@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.trySpring.aspect.annotation.AopTargetAnnotation;
+
 @Controller
 public class HelloController {
 
@@ -25,6 +27,7 @@ public class HelloController {
 	}
 
 	@PostMapping("/hello/db")
+	@AopTargetAnnotation
 	public String postDbRequest(@RequestParam("text2")String str, Model model) {
 		int id = Integer.parseInt(str);
 
