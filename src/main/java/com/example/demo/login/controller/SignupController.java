@@ -14,12 +14,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.login.domain.model.SignupForm;
+import com.example.demo.login.domain.model.User;
+import com.example.demo.login.domain.service.UserService;
 import com.example.demo.login.domain.validator.ValidationGroupOrder;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class SignupController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private final UserService userService;
 
+	// General User Role
+	private static final String ROLE_GENERAL = "ROLE_GENERAL";
 	private Map<String, String> radioMarriage;
 
 	@GetMapping("/signup")
@@ -35,7 +43,24 @@ public class SignupController {
 		if (bindingResult.hasErrors()) {
 			return getSignUp(form, model);
 		}
-		logger.info(form.toString());
+		// TODO password mast be hashed
+		logger.debug(form.toString());
+
+		User user = new User();
+		user.setUserId(form.getUserId());
+		user.setPassword(form.getPassword());
+		user.setUserName(form.getUserName());
+		user.setBirthday(form.getBirthday());
+		user.setAge(form.getAge());
+		user.setMarriage(form.isMarriage());
+		user.setRole(ROLE_GENERAL);
+
+		if (userService.insert(user)) {
+			logger.info("User registration success !");
+		} else {
+			logger.error("User registration failed !");
+		}
+
 		return "redirect:/login";
 	}
 

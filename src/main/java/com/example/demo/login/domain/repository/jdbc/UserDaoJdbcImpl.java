@@ -1,6 +1,9 @@
 package com.example.demo.login.domain.repository.jdbc;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,12 +22,32 @@ public class UserDaoJdbcImpl implements UserDao {
 
 	@Override
 	public int count() throws DataAccessException {
-		return 0;
+		return jdbc.queryForObject("SELECT COUNT(*) FROM m_user", Integer.class);
 	}
 
 	@Override
-	public int insertOne(User user) throws DataAccessException {
-		return 0;
+	public boolean insertOne(User user) throws DataAccessException {
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO m_user (")
+				.append(" user_id, ")
+				.append(" password, ")
+				.append(" user_name, ")
+				.append(" birthday, ")
+				.append(" age, ")
+				.append(" marriage, ")
+				.append(" role) ")
+				.append(" VALUES(?, ?, ?, ?, ?, ?, ?)");
+
+		int rowNumber = jdbc.update(sb.toString(),
+				user.getUserId(),
+				user.getPassword(),
+				user.getUserName(),
+				user.getBirthday(),
+				user.getAge(),
+				user.isMarriage(),
+				user.getRole());
+
+		return rowNumber > 0;
 	}
 
 	@Override
@@ -34,7 +57,20 @@ public class UserDaoJdbcImpl implements UserDao {
 
 	@Override
 	public List<User> selectAll() throws DataAccessException {
-		return null;
+		List<Map<String, Object>> result = jdbc.queryForList("SELECT * FROM m_user");
+		return result
+				.stream()
+				.map(oneMap -> {
+					User user = new User();
+					user.setUserId((String) oneMap.get("user_id"));
+					user.setPassword((String) oneMap.get("password"));
+					user.setUserName((String) oneMap.get("user_name"));
+					user.setBirthday((Date) oneMap.get("birthday"));
+					user.setAge((Integer) oneMap.get("age"));
+					user.setMarriage((Boolean) oneMap.get("marriage"));
+					user.setRole((String) oneMap.get("role"));
+					return user;
+				}).collect(Collectors.toList());
 	}
 
 	@Override

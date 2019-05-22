@@ -10,7 +10,7 @@ public interface UserDao {
 
 	public int count() throws DataAccessException;
 
-	public int insertOne(User user) throws DataAccessException;
+	public boolean insertOne(User user) throws DataAccessException;
 
 	public User selectOne(String userId) throws DataAccessException;
 
