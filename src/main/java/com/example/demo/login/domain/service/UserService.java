@@ -26,4 +26,8 @@ public class UserService {
 	public List<User> selectAll() {
 		return dao.selectAll();
 	}
+
+	public User selectOne(String userId) {
+		return dao.selectOne(userId);
+	}
 }

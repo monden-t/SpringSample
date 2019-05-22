@@ -52,7 +52,8 @@ public class UserDaoJdbcImpl implements UserDao {
 
 	@Override
 	public User selectOne(String userId) throws DataAccessException {
-		return null;
+		Map<String, Object> result = jdbc.queryForMap("SELECT * FROM m_user WHERE user_id = ?", userId);
+		return createOneUser(result);
 	}
 
 	@Override
@@ -61,15 +62,7 @@ public class UserDaoJdbcImpl implements UserDao {
 		return result
 				.stream()
 				.map(oneMap -> {
-					User user = new User();
-					user.setUserId((String) oneMap.get("user_id"));
-					user.setPassword((String) oneMap.get("password"));
-					user.setUserName((String) oneMap.get("user_name"));
-					user.setBirthday((Date) oneMap.get("birthday"));
-					user.setAge((Integer) oneMap.get("age"));
-					user.setMarriage((Boolean) oneMap.get("marriage"));
-					user.setRole((String) oneMap.get("role"));
-					return user;
+					return createOneUser(oneMap);
 				}).collect(Collectors.toList());
 	}
 
@@ -87,4 +80,15 @@ public class UserDaoJdbcImpl implements UserDao {
 	public void userCsvOut() throws DataAccessException {
 	}
 
+	private User createOneUser(Map<String, Object> oneRecord) {
+		User user = new User();
+		user.setUserId((String) oneRecord.get("user_id"));
+		user.setPassword((String) oneRecord.get("password"));
+		user.setUserName((String) oneRecord.get("user_name"));
+		user.setBirthday((Date) oneRecord.get("birthday"));
+		user.setAge((Integer) oneRecord.get("age"));
+		user.setMarriage((Boolean) oneRecord.get("marriage"));
+		user.setRole((String) oneRecord.get("role"));
+		return user;
+	}
 }
