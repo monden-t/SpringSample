@@ -1,10 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" ></script>
+<script th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}" ></script>
+<link	th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.css}" rel="stylesheet" ></link>
+<title>SignUp</title>
 </head>
 <body>
-
+	<div class="col-sm-3"></div>
+	<div class="container col-sm-6">
+		<div class="page-header">
+			<h1>User Registration</h1>
+		</div>
+		<form method="post" th:action="@{/signup}" th:object="${signupForm}">
+			<table class="table table-bordered table-hover">
+				<tr>
+					<th class="active">User ID</th>
+					<td>
+						<div class="form-group">
+							<input type="text" class="form-control" th:classappend="${#fields.hasErrors('userId')} ? 'is-invalid'" th:field="*{userId}"/>
+							<span class="text-danger" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">userId Error</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="active">Password</th>
+					<td>
+						<div class="form-group">
+							<input type="password" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" th:field="*{password}"/>
+							<span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="active">User Name</th>
+					<td>
+						<div class="form-group">
+							<input type="text" class="form-control" th:classappend="${#fields.hasErrors('userName')} ? 'is-invalid'" th:field="*{userName}" />
+							<span class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">userName Error</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="active">Birthday</th>
+					<td>
+						<div class="form-group">
+							<input type="text" class="form-control" th:classappend="${#fields.hasErrors('birthday')} ? 'is-invalid'" placeholder="yyyy/MM/dd" th:field="*{birthday}"/>
+							<span class="text-danger" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">birthday Error</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="active">Age</th>
+					<td>
+						<div class="form-group">
+							<input type="text" class="form-control" th:classappend="${#fields.hasErrors('age')} ? 'is-invalid'" th:field="*{age}"/>
+							<span class="text-danger" th:if="${#fields.hasErrors('userId')}" th:errors="*{age}">age Error</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="active">Marriage</th>
+					<td>
+						<div class="form-group">
+							<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								<label th:each="item:${radioMarriage}" class="btn btn-secondary" >
+									<input type="radio" name="radioMarriage" autocomplete="off" th:text="${item.key}" th:value="${item.value}" th:field="*{marriage}" />
+								</label>
+							</div>
+						</div>
+						<span class="text-danger" th:if="${#fields.hasErrors('marriage')}" th:errors="*{marriage}">marriage Error</span>
+					</td>
+				</tr>
+			</table>
+			<!--
+			<ul>
+				<li th:each="error:${#fields.detailedErrors()}">
+					<span th:text="${error.message}">Error message</span>
+				</li>
+			</ul>
+			-->
+			<button class="btn btn-primary" type="submit">Register!</button>
+		</form>
+	</div>
+	<div class="col-sm-3"></div>
 </body>
 </html>

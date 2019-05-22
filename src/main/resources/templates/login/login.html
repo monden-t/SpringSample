@@ -2,19 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"></meta>
-<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
-<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/3.3.7-1/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" ></script>
+<script th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}" ></script>
+<link	th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.css}" rel="stylesheet" ></link>
 <title>Login</title>
 </head>
+
 <body class="text-center">
-	<form method="post" action="/login">
-		<label>User ID</label>
-		<input type="text" /><br />
-		<label>Password</label>
-		<input type="password" /><br />
-		<button class="btn btn-primary" type="submit">Login!</button>
-	</form>
-	<a th:href="@{'/sigunup'}">Register Account</a>
+	<div class="container">
+		<h1>Login</h1><br>
+		<form method="post" action="/login">
+			<div class="form-group row">
+				<div class="col-sm-3"></div>
+				<label class="col-form-label col-sm-3">User ID</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" /><br />
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3"></div>
+				<label class="col-form-label col-sm-3">Password</label>
+				<div class="col-sm-4">
+					<input type="password" class="form-control" /><br />
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+			<button class="btn btn-primary" type="submit">Login!</button>
+		</form>
+		<br />
+		<a th:href="@{'/signup'}">Register Account</a>
+	</div>
 </body>
 </html>
