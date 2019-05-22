@@ -12,10 +12,10 @@ public class LoginController {
 	public String getLogin(Model model) {
 		return "login/login";
 	}
-	
+
 	@PostMapping("/login")
 	public String postLogin(Model model) {
-		return "login/login";
+		return "redirect:/home";
 	}
 
 }

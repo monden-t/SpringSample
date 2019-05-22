@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" ></script>
+<script th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}" ></script>
+<link	th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.css}" rel="stylesheet" ></link>
+<link	th:href="@{/css/home.css}" rel="stylesheet" ></link>
+<title>Home</title>
+</head>
+
+<body>
+	<!-- Navigation Bar -->
+	<nav class="navbar navbar-inverse navbar-dark bg-dark fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">SpringSample</a>
+			</div>
+			<form method="post" th:action="@{/logout}">
+				<button type="submit" class="btn btn-link pull-right navbar-brand">Logout</button>
+			</form>
+		</div>
+	</nav>
+
+	<!-- Side Bar -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-2 sidebar">
+				<ul class="nav nav-pills">
+					<li class="nav-item"><a class="nav-link" th:href="@{/userList}">User Management</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Contents -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-10 offset-md-2 main">
+				<div th:include="__${contents}__"></div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
