@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.login.domain.model.User;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class UserDaoNamedJdbcImpl implements UserDao {
 
 	private final NamedParameterJdbcTemplate jdbc;
+	private final PasswordEncoder passwordEncoder;
 	private final static UserRowCallbackHandler rowClallbackhandler = new UserRowCallbackHandler();
 
 	@Override
@@ -50,7 +52,7 @@ public class UserDaoNamedJdbcImpl implements UserDao {
 
 		SqlParameterSource paramSource = new MapSqlParameterSource()
 				.addValue("userId", user.getUserId())
-				.addValue("password", user.getPassword())
+				.addValue("password", passwordEncoder.encode(user.getPassword()))
 				.addValue("userName", user.getUserName())
 				.addValue("birthday", user.getBirthday())
 				.addValue("age", user.getAge())
@@ -83,14 +85,16 @@ public class UserDaoNamedJdbcImpl implements UserDao {
 	public boolean updateOne(User user) throws DataAccessException {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE m_user SET")
+				.append(" password  = :password, ")
 				.append(" user_name = :userId, ")
-				.append(" birthday = :birthday, ")
-				.append(" age = :age, ")
-				.append(" marriage = :marriage ")
+				.append(" birthday  = :birthday, ")
+				.append(" age       = :age, ")
+				.append(" marriage  = :marriage ")
 				.append(" WHERE user_id = :userId");
 
 		SqlParameterSource paramSource = new MapSqlParameterSource()
 				.addValue("userId", user.getUserId())
+				.addValue("password", passwordEncoder.encode(user.getPassword()))
 				.addValue("userName", user.getUserName())
 				.addValue("birthday", user.getBirthday())
 				.addValue("age", user.getAge())

@@ -114,6 +114,12 @@ public class HomeController {
 		return getUserList(model);
 	}
 
+	@GetMapping("/admin")
+	public String getAdmin(Model model) {
+		model.addAttribute("contents", "login/adming :: admin_contents");
+		return HOME_PATH;
+	}
+
 	private Map<String, String> initRadioMarriage() {
 		Map<String, String> radio = new LinkedHashMap<>();
 		radio.put("既婚", "true");
