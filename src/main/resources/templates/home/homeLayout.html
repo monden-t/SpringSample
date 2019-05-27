@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			xmlns:sec="http://www.thymeleaf.org/thymelead-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" ></script>
@@ -28,7 +30,7 @@
 			<div class="col-sm-2 sidebar">
 				<ul class="nav nav-pills">
 					<li class="nav-item"><a class="nav-link" th:href="@{/userList}">User Management</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/admin}">Administrator Screen</a></li>
+					<li class="nav-item" sec:authorize="hasRole('ADMIN')" ><a class="nav-link" th:href="@{/admin}">Administrator Screen</a></li>
 				</ul>
 			</div>
 		</div>

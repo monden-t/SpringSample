@@ -39,8 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/webjars/**").permitAll()
 				.antMatchers("/css/**").permitAll()
-				.antMatchers("/login/**").permitAll()
-				.antMatchers("/signup/**").permitAll()
+				.antMatchers("/login").permitAll()
+				.antMatchers("/signup").permitAll()
+				.antMatchers("/admin").hasAnyAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated();
 
 		http.formLogin()
@@ -55,9 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutUrl("/logout")
 				.logoutSuccessUrl("/login");
-
-		// FIXME temporary code
-		http.csrf().disable();
 	}
 
 	@Override
