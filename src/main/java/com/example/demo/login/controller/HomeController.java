@@ -1,14 +1,20 @@
 package com.example.demo.login.controller;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.login.domain.model.SignupForm;
 import com.example.demo.login.domain.model.User;
@@ -45,14 +51,25 @@ public class HomeController {
 	}
 
 	@GetMapping("/userList/csv")
-	public String getUserListCsv(Model model) {
-		return getUserList(model);
+	public ResponseEntity<byte[]> getUserListCsv(Model model) {
+		userService.userCsvOut();
+		byte[] bytes = null;
+		try {
+			bytes = userService.getFile("sample.csv");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		HttpHeaders header = new HttpHeaders();
+		header.add("Content-Type", "text/csv; charset=UTF-8");
+		header.setContentDispositionFormData("filename", "sample.csv");
+		return new ResponseEntity<>(bytes, header, HttpStatus.OK);
 	}
 
 	@GetMapping("/userDetail/{id:.+}")
 	public String getUserDetail(@ModelAttribute SignupForm form, Model model, @PathVariable("id") String userId) {
-		model.addAttribute("contents", "home/userDetail::userDetai_contents");
+		model.addAttribute("contents", "home/userDetail::userDetail_contents");
 		radioMarriage = initRadioMarriage();
+		model.addAttribute("radioMarriage", radioMarriage);
 		if (!StringUtils.isEmpty(userId)) {
 			User user = userService.selectOne(userId);
 			form.setUserId(user.getUserId());
@@ -64,6 +81,37 @@ public class HomeController {
 			model.addAttribute("signupForm", form);
 		}
 		return HOME_PATH;
+	}
+
+	@PostMapping(value = "/userDetail", params = "update")
+	public String postUserDetailUpdate(@ModelAttribute SignupForm form, Model model) {
+		User user = new User();
+		user.setUserId(form.getUserId());
+		user.setUserName(form.getUserName());
+		user.setBirthday(form.getBirthday());
+		user.setAge(form.getAge());
+		user.setMarriage(form.isMarriage());
+		try {
+			if (userService.updateOne(user)) {
+				model.addAttribute("result", "Update Success!");
+			} else {
+				model.addAttribute("result", "Update Failed!");
+			}
+		} catch (DataAccessException e) {
+			model.addAttribute("result", "Update Failed!");
+			e.printStackTrace();
+		}
+		return getUserList(model);
+	}
+
+	@PostMapping(value = "/userDetail", params = "delete")
+	public String postUserDelete(@ModelAttribute SignupForm form, Model model) {
+		if (userService.deleteOne(form.getUserId())) {
+			model.addAttribute("result", "Delete Success!");
+		} else {
+			model.addAttribute("result", "Delete Failed!");
+		}
+		return getUserList(model);
 	}
 
 	private Map<String, String> initRadioMarriage() {

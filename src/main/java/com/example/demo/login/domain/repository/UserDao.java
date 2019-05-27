@@ -16,9 +16,9 @@ public interface UserDao {
 
 	public List<User> selectAll() throws DataAccessException;
 
-	public int updateOne(User user) throws DataAccessException;
+	public boolean updateOne(User user) throws DataAccessException;
 
-	public int deleteOne(String userId) throws DataAccessException;
+	public boolean deleteOne(String userId) throws DataAccessException;
 
 	public void userCsvOut() throws DataAccessException;
 }

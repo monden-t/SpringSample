@@ -4,6 +4,76 @@
 <meta charset="UTF-8">
 </head>
 <body>
+	<div th:fragment="userDetail_contents">
+		<div class="riw">
+			<div class="col-sm-5">
+				<div class="page-header">
+					<h1>User Detail</h1>
+				</div>
+				<form method="post" th:action="@{/userDetail}" th:object="${signupForm}">
+					<table class="table table-borderd table-hover">
+						<tr>
+							<th class="active col-sm-2">User ID</th>
+							<td class="col-sm-3">
+								<div class="form-group">
+									<input type="text" class="form-controll" th:field="*{userId}" readonly="readonly">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="active">Password</th>
+							<td>
+								<div class="form-group" th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
+									<input type="text" class="form-controll" th:field="*{password}">
+									<span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="active">User Name</th>
+							<td>
+								<div class="form-group" th:classappend="${#fields.hasErrors('userName')} ? 'has-error'">
+									<input type="text" class="form-controll" th:field="*{userName}">
+									<span class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">userName error</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="active">Birthday</th>
+							<td>
+								<div class="form-group" th:classappend="${#fields.hasErrors('birthday')} ? 'has-error'">
+									<input type="text" class="form-controll" th:field="*{birthday}" placeholder="yyyy/MM/dd">
+									<span class="text-danger" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">birthday error</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="active">Age</th>
+							<td>
+								<div class="form-group" th:classappend="${#fields.hasErrors('age')} ? 'has-error'">
+									<input type="text" class="form-controll" th:field="*{age}">
+									<span class="text-danger" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age error</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="active">Marriage</th>
+							<td>
+								<div class="form-group">
+									<div th:each="item:${radioMarriage}">
+										<input type="radio" name="radioMarriage" autocomplete="off" th:text="${item.key}" th:value="${item.value}" th:field="*{marriage}">
+									</div>
+									<span class="text-danger" th:if="${#fields.hasErrors('marriage')}" th:errors="*{marriage}">marriage Error</span>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<button class="btn btn-primary btn-lg pull-right" type="submit" name="update">Update</button>
+					<button class="btn btn-danger btn-lg" type="submit" name="delete">Delete</button>
+				</form>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>
