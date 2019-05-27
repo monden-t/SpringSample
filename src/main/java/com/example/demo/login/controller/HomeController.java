@@ -99,7 +99,7 @@ public class HomeController {
 			}
 		} catch (DataAccessException e) {
 			model.addAttribute("result", "Update Failed!");
-			e.printStackTrace();
+			throw e;
 		}
 		return getUserList(model);
 	}

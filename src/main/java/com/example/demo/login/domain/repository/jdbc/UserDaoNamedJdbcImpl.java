@@ -99,7 +99,6 @@ public class UserDaoNamedJdbcImpl implements UserDao {
 		// 例外処理テスト用
 //		throw new DataAccessException("トランザクションテスト") {
 //		};
-
 		return jdbc.update(sb.toString(), paramSource) > 0;
 	}
 
