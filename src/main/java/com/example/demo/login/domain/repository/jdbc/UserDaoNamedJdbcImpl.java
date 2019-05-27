@@ -86,7 +86,7 @@ public class UserDaoNamedJdbcImpl implements UserDao {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE m_user SET")
 				.append(" password  = :password, ")
-				.append(" user_name = :userId, ")
+				.append(" user_name = :userName, ")
 				.append(" birthday  = :birthday, ")
 				.append(" age       = :age, ")
 				.append(" marriage  = :marriage ")
