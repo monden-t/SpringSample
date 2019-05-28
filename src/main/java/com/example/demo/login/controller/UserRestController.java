@@ -31,11 +31,9 @@ public class UserRestController {
 	}
 
 	/*
-	 * test command -> curl -X POST -H "Content-Type:application/json" -d
-	 * "{\"userId\": \"test3@test.com\", \"password\": \ "password\", \"userName\":
-	 * \"testttt\", \"birthday\": \"1990-11-01\",\"age\": \"29\",\"marriage\": \"f
-	 * alse\", \"role\": \"ROLE_ADMIN\"}" http://localhost:8080/rest/insert
-	 */
+	 * test command
+	 * curl -X POST -H "Content-Type:application/json" -d "{\"userId\": \"test3@test.com\", \"password\": \"password\", \"userName\": \"testttt\", \"birthday\": \"1990-11-01\",\"age\": \"29\",\"marriage\": \"false\", \"role\": \"ROLE_ADMIN\"}" http://localhost:8080/rest/insert
+	 * */
 	@PostMapping("/rest/insert")
 	public String postUserOne(@RequestBody User user) {
 		if (service.insert(user)) {
@@ -46,11 +44,9 @@ public class UserRestController {
 	}
 
 	/*
-	 * test command -> curl -X PUT -H "Content-Type:application/json" -d
-	 * "{\"userId\": \"test@test.com\", \"password\": \"p
-	 * assword\", \"userName\": \"testttt\", \"birthday\": \"1990-11-01\",\"age\": \"29\",\"marriage\": \"
-	 * fal se\", \"role\": \"ROLE_ADMIN\"}" http://localhost:8080/rest/update
-	 */
+	 * test command 
+	 * curl -X PUT -H "Content-Type:application/json" -d "{\"userId\": \"test@test.com\", \"password\": \"password\", \"userName\": \"testttt\", \"birthday\": \"1990-11-01\",\"age\": \"29\",\"marriage\": \"false\", \"role\": \"ROLE_ADMIN\"}" http://localhost:8080/rest/update
+	 * */
 	@PutMapping("/rest/update")
 	public String putUserOne(@RequestBody User user) {
 		if (service.update(user)) {
@@ -61,8 +57,8 @@ public class UserRestController {
 	}
 
 	/*
-	 * test command -> curl http://localhost:8080/rest/delete/test@test.com -X
-	 * DELETE
+	 * test command 
+	 * curl http://localhost:8080/rest/delete/test@test.com -X DELETE
 	 */
 	@DeleteMapping("/rest/delete/{id:.+}")
 	public String deleteUserOne(@PathVariable("id") String userId) {
